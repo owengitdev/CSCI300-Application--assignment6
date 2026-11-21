@@ -13,7 +13,6 @@ app.get('/api/products', (req, res) => {
         res.json(rows); 
     }); 
 });
-
 db.run(`
     INSERT INTO products (id, courseCode, title, credits, description, semester)
     VALUES 
@@ -25,3 +24,16 @@ db.run(`
         (8, 'CS301', 'Database Systems', 3, 'Design and implementation of database systems.', 'Fall 2024'),
         (9, 'PHSY201', 'Physics II', 4, 'Electricity, magnetism, and modern physics', 'Spring 2025'),
         (10, 'CS201', 'Data Structures', 4, 'Study of fundamental data structures and algorithms', 'Spring 2025'),`);
+
+db.run('DELETE FROM products WHERE id = ?', [1], function(err) {
+    console.log('Rows deleted:', this.changes);
+});
+
+app.delete('/api/products/:id', (req, res) => { 
+    const id = req.params.id; 
+    db.run('DELETE FROM products WHERE id = ', [id], 
+        function(err) { 
+            res.json({ message: 'Product deleted' }); 
+        }
+    ); 
+});
