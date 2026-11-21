@@ -7,6 +7,19 @@ db.all("SELECT * FROM products", (err, rows) => {
 });
 
 
+db.run('DELETE FROM products WHERE id = ?', [1], function(err) {
+    console.log('Rows deleted:', this.changes);
+});
+
+app.delete('/api/products/:id', (req, res) => { 
+    const id = req.params.id; 
+    db.run('DELETE FROM products WHERE id = ', [id], 
+        function(err) { 
+            res.json({ message: 'Product deleted' }); 
+        }
+    ); 
+});
+
 
 app.get('/api/products', (req, res) => { 
     db.all('SELECT * FROM products', (err, rows) => { 
@@ -25,15 +38,3 @@ db.run(`
         (9, 'PHSY201', 'Physics II', 4, 'Electricity, magnetism, and modern physics', 'Spring 2025'),
         (10, 'CS201', 'Data Structures', 4, 'Study of fundamental data structures and algorithms', 'Spring 2025'),`);
 
-db.run('DELETE FROM products WHERE id = ?', [1], function(err) {
-    console.log('Rows deleted:', this.changes);
-});
-
-app.delete('/api/products/:id', (req, res) => { 
-    const id = req.params.id; 
-    db.run('DELETE FROM products WHERE id = ', [id], 
-        function(err) { 
-            res.json({ message: 'Product deleted' }); 
-        }
-    ); 
-});
