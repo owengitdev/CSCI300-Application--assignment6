@@ -8,8 +8,17 @@ async function setupDatabase(){
 
 const sqlite3 = require('sqlite3').verbose();
 
-const db = new sqlite3.setupDatabase.Database('mydatabase.db');
+
+const express = require('express');
+const splite2 = require('sqlite3').verbose();
+const app = express();
+app.use(express.json());
+
+
+const db = new sqlite3.setupDatabase.Database('university.db');
 console.log("Database connection established");
+setupDatabaseSchema();
+
 
 db.run(`
     INSERT INTO products (
